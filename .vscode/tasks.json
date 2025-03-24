@@ -8,10 +8,15 @@
                 "-s",
                 "-fdiagnostics-color=always",
                 "-mwindows",
+                "-static-libstdc++",
+                "-static-libgcc",
                 "-g",
                 "${file}",
                 "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
+                "${fileDirname}/${fileBasenameNoExtension}",
+                "-Wl,-Bstatic,--whole-archive",
+                "-lwinpthread",
+                "-Wl,--no-whole-archive"
             ],
             "options": {
                 "cwd": "${fileDirname}"
@@ -32,10 +37,15 @@
             "args": [
                 "-fdiagnostics-color=always",
                 "-mwindows",
+                "-static-libstdc++",
+                "-static-libgcc",
                 "-g",
                 "${file}",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}",
+                "-Wl,-Bstatic,--whole-archive",
+                "-lwinpthread",
+                "-Wl,--no-whole-archive"
             ],
             "options": {
                 "cwd": "${fileDirname}"
