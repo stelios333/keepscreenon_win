@@ -15,17 +15,6 @@ BOOL keepScreenOn = false;
 
 bool copyToStartup()
 {
-    int response = MessageBoxA(
-        NULL,
-        "Would you like this program to run automatically at startup?",
-        "Keep screen on",
-        MB_YESNO | MB_ICONQUESTION);
-
-    if (response != IDYES)
-    {
-        return false;
-    }
-
     // Get the path of the current executable
     char exePath[MAX_PATH];
     GetModuleFileNameA(NULL, exePath, MAX_PATH);
@@ -45,15 +34,32 @@ bool copyToStartup()
     // Create destination path
     std::string destPath = std::string(startupPath) + "\\" + exeName;
 
-    // Copy the file to Startup folder
-    if (CopyFileA(exePath, destPath.c_str(), FALSE))
+    // Copy only if not already present
+    DWORD attribs = GetFileAttributesA(destPath.c_str());
+    if (attribs == INVALID_FILE_ATTRIBUTES || attribs & FILE_ATTRIBUTE_DIRECTORY)
     {
-        return true;
+        int response = MessageBoxA(
+            NULL,
+            "Would you like this program to run automatically at startup?",
+            "Keep screen on",
+            MB_YESNO | MB_ICONQUESTION);
+
+        if (response != IDYES)
+        {
+            return false;
+        }
+
+        // Copy the file to Startup folder
+        if (CopyFileA(exePath, destPath.c_str(), FALSE))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
-    else
-    {
-        return false;
-    }
+    return false;
 }
 
 void UpdateScreenState()
