@@ -16,9 +16,9 @@ An extremely minimal and lightweight Windows tray application that prevents your
 
 When enabled, your screen will stay on regardless of power settings. When disabled or exiting, normal power management resumes.
 
-### Building
+### Compiling
 From Linux for 64-bit Windows:
 ```bash
-x86_64-w64-mingw32-g++ -o keepscreenon_x64.exe main.cpp -static-libgcc -static-libstdc++ -luser32 -lshell32 -mwindows
+x86_64-w64-mingw32-g++ -o keepscreenon_x64.exe main.cpp -static -static-libgcc -static-libstdc++ -mwindows
 ```
 For other OSes you'll have to figure it out yourself.
